@@ -17,6 +17,10 @@ before_script:
   
 before_install:
 
+
+install:
+    mvn install -Dmaven.javadoc.skip=true
+    
 script:
     echo "skip test...."
 

@@ -32,6 +32,7 @@ branches:
     - master
     - dev
     - coverity_scan
+    - final_gtihub_action
     
 env:
   global:

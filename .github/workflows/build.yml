@@ -49,9 +49,10 @@ jobs:
         run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
 
       - name: show coverage files
-        run: |
-           cat ./redis/redis-checker/target/site/cobertura/coverage.xml
-           cat ./redis/redis-checker/target/site/cobertura/coverage.xml
+        run: cat ./redis/redis-checker/target/site/cobertura/coverage.xml
+
+      - name: show JACOCO files
+        run: cat ./redis/redis-checker/target/jacoco/jacoco.xml
 
       - name: codecov
         uses: codecov/codecov-action@v2.0.1

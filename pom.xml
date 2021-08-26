@@ -979,6 +979,19 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
                         <version>${cobertura-maven-plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sourceforge.cobertura</groupId>
+                                <artifactId>cobertura</artifactId>
+                                <version>${cobertura.version}</version>
+                                <exclusions>
+                                    <exclusion>
+                                        <groupId>ch.qos.logback</groupId>
+                                        <artifactId>logback-classic</artifactId>
+                                    </exclusion>
+                                </exclusions>
+                            </dependency>
+                        </dependencies>
                         <configuration>
                             <formats>
                                 <format>html</format>

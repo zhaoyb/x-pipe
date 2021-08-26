@@ -49,11 +49,11 @@ jobs:
         run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
 
       -name: show coverage files
-        run:  |
+        run: |
            cat ./redis/redis-checker/target/site/cobertura/coverage.xml
            cat ./redis/redis-checker/target/site/cobertura/coverage.xml
 
-          - name: codecov
+      - name: codecov
         uses: codecov/codecov-action@v2.0.1
         with:
           token: 50484ce1-6e23-4309-87ac-e2cf9d3a3b4f

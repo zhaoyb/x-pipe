@@ -48,7 +48,7 @@ jobs:
       - name: generate report
         run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
 
-      -name: show coverage files
+      - name: show coverage files
         run: |
            cat ./redis/redis-checker/target/site/cobertura/coverage.xml
            cat ./redis/redis-checker/target/site/cobertura/coverage.xml

@@ -42,11 +42,12 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: mvn install -Dmaven.javadoc.skip=true -B -V generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
+        #run: mvn install -Dmaven.javadoc.skip=true -B -V generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
 
 
-      #- name: generate report
-      #  run: mvn -Dlog.console.close=true  clean 
+      - name: generate report
+        run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
+
       - name: codecov
         uses: codecov/codecov-action@v2.0.1
         with:

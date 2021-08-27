@@ -63,7 +63,6 @@ jobs:
       - name: show JACOCO files
         run: |
           cat ./redis/redis-checker/target/jacoco/jacoco.xml
-          cat ./redis/redis-roxy-client/target/jacoco/jacoco.xml
           cat ./redis/redis-core/target/jacoco/jacoco.xml
           cat ./redis/redis-proxy/target/jacoco/jacoco.xml
           cat ./redis/redis-meta/target/jacoco/jacoco.xml

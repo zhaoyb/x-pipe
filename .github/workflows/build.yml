@@ -51,7 +51,7 @@ jobs:
 
       - name: show coverage files
         run: |
-          cat ./redis/redis-checker/target/site/cobertura/coverage.xml
+          cat ./redis/redis-console/target/site/cobertura/coverage.xml
 
       - name: show JACOCO files
         run: |

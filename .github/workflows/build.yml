@@ -46,27 +46,20 @@ jobs:
         run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
       - name: generate report
-        run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml jacoco:report
+        run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress cobertura:cobertura -Dcobertura.report.format=xml
         #run: mvn -Dlog.console.close=true  clean generate-resources --no-transfer-progress jacoco:report
 
-      - name: show coverage files
-        run: |
-          rm ./redis/redis-checker/target/site/cobertura/coverage.xml
-          rm ./redis/redis-core/target/site/cobertura/coverage.xml
-          rm ./redis/redis-proxy-client/target/site/cobertura/coverage.xml
-          rm ./redis/redis-proxy/target/site/cobertura/coverage.xml
-          rm ./redis/redis-meta/target/site/cobertura/coverage.xml
-          rm ./redis/redis-keeper/target/site/cobertura/coverage.xml
-          rm ./redis/redis-console/target/site/cobertura/coverage.xml
-          rm ./core/target/site/cobertura/coverage.xml
 
       - name: show JACOCO files
         run: |
-          cat ./redis/redis-checker/target/jacoco/jacoco.xml
-          cat ./redis/redis-core/target/jacoco/jacoco.xml
-          cat ./redis/redis-proxy/target/jacoco/jacoco.xml
-          cat ./redis/redis-meta/target/jacoco/jacoco.xml
-          cat ./redis/redis-keeper/target/jacoco/jacoco.xml
+          rm ./redis/redis-checker/target/jacoco/jacoco.xml
+          rm ./redis/redis-core/target/jacoco/jacoco.xml
+          rm ./redis/redis-proxy/target/jacoco/jacoco.xml
+          rm ./redis/redis-meta/target/jacoco/jacoco.xml
+          rm ./redis/redis-keeper/target/jacoco/jacoco.xml
+          rm ./redis/redis-console/target/jacoco/jacoco.xml
+          rm ./redis/redis-proxy-client/target/jacoco/jacoco.xml
+          rm ./core/target/jacoco/jacoco.xml
 
       - name: codecov
         uses: codecov/codecov-action@v2.0.1

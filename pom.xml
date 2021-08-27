@@ -950,13 +950,6 @@
                         <configuration>
                             <destFile>target/coverage-reports/jacoco-unit.exec</destFile>
                             <dataFile>target/coverage-reports/jacoco-unit.exec</dataFile>
-                            <includes>
-                                <include>**/service/**</include>
-                                <include>**/controller/**</include>
-                                <include>**/*Tests.java</include>
-                                <include>**/*Test.java</include>
-                                <!--<include>**/service/impl/*.class</include>-->
-                            </includes>
                         </configuration>
                         <executions>
                             <!-- Prepares the property pointing to the JaCoCo runtime agent

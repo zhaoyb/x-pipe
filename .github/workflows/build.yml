@@ -52,10 +52,22 @@ jobs:
       - name: show coverage files
         run: |
           cat ./redis/redis-checker/target/site/cobertura/coverage.xml
-          rm ./redis/redis-checker/target/site/cobertura/coverage.xml
+          rm ./redis/edis-core/target/site/cobertura/coverage.xml
+          rm ./redis/redis-proxy-client/target/site/cobertura/coverage.xml
+          rm ./redis/redis-proxy/target/site/cobertura/coverage.xml
+          rm ./redis/redis-meta/target/site/cobertura/coverage.xml
+          rm ./redis/redis-keeper/target/site/cobertura/coverage.xml
+          rm ./redis/redis-console/target/site/cobertura/coverage.xml
+          rm ./core/target/site/cobertura/coverage.xml
 
       - name: show JACOCO files
-        run: cat ./redis/redis-checker/target/jacoco/jacoco.xml
+        run: |
+          cat ./redis/redis-checker/target/jacoco/jacoco.xml
+          cat ./redis/redis-roxy-client/target/jacoco/jacoco.xml
+          cat ./redis/redis-core/target/jacoco/jacoco.xml
+          cat ./redis/redis-proxy/target/jacoco/jacoco.xml
+          cat ./redis/redis-meta/target/jacoco/jacoco.xml
+          cat ./redis/redis-keeper/target/jacoco/jacoco.xml
 
       - name: codecov
         uses: codecov/codecov-action@v2.0.1

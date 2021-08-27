@@ -51,8 +51,8 @@ jobs:
 
       - name: show coverage files
         run: |
-          cat ./redis/redis-checker/target/site/cobertura/coverage.xml
-          rm ./redis/edis-core/target/site/cobertura/coverage.xml
+          rm ./redis/redis-checker/target/site/cobertura/coverage.xml
+          rm ./redis/redis-core/target/site/cobertura/coverage.xml
           rm ./redis/redis-proxy-client/target/site/cobertura/coverage.xml
           rm ./redis/redis-proxy/target/site/cobertura/coverage.xml
           rm ./redis/redis-meta/target/site/cobertura/coverage.xml

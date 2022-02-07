@@ -29,10 +29,15 @@ import java.util.concurrent.*;
 public abstract class AbstractSpringConfigContext implements ApplicationContextAware{
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+	/**
+	 * 获取spring的applicationContext
+	 *
+	 */
 	public static ApplicationContext applicationContext;
 	
 	static{
+		// 线程异常处理类， 这里可以理解为一个全局异常类
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler());
 	}
 

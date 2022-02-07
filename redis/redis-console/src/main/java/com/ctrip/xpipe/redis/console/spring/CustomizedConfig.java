@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 自定义配置，这里配置401错误页面
+ *
+ */
 @Configuration
 public class CustomizedConfig extends AbstractRedisConfigContext {
 	@Bean

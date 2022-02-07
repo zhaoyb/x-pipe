@@ -22,11 +22,18 @@ public class KeeperContainerApplication {
     public static void main(String[] args) throws Exception {
     	
         SpringApplication application = new SpringApplication(KeeperContainerApplication.class);
-        application.setRegisterShutdownHook(false);
+		/* 关闭spring容器的优雅关机
+		 * spring容器本身有优雅关机， 应用程序也有优雅关机， 但是在真正关机的时候， 他们谁先执行是不受控制的，
+		 * 可能在应用关闭的时候， 应用程序优雅关机中，还需要spring容器中的bean, 如果此时spring先执行了， 应用程序就会报错。
+		 * 所以这里取消了spring容器的优雅挂机。保留应用程序的， 可以在应用程序中手动调用spring的优雅关机
+		 */
+		application.setRegisterShutdownHook(false);
+		// 容器启动
         final ConfigurableApplicationContext context = application.run(args);
         
         final ComponentRegistry registry = initComponentRegistry(context);
-        
+
+		// 添加钩子， 实现优雅停机
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			
 			@Override
@@ -57,10 +64,14 @@ public class KeeperContainerApplication {
     }
 
     private static ComponentRegistry initComponentRegistry(ConfigurableApplicationContext context) throws Exception {
-    	
+
+		// 默认注册中心
         final ComponentRegistry registry = new DefaultRegistry(new CreatedComponentRedistry(),
                 new SpringComponentRegistry(context));
-        registry.initialize();
+
+		// 注册中心 也受生命周期的影响， 所以这里初始化，内部初始化了CreatedComponentRedistry SpringComponentRegistry
+		registry.initialize();
+		// 启动 ， 内部启动了CreatedComponentRedistry SpringComponentRegistry
         registry.start();
         ComponentRegistryHolder.initializeRegistry(registry);
         return registry;

@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * keeper容器， keeper是由keeper容器管理
+ *
  * @author Jason Song(song_s@ctrip.com)
  */
 @RestController
@@ -29,6 +31,11 @@ public class KeeperContainerController extends AbstractController {
     @Autowired
     private CompositeLeakyBucket leakyBucket;
 
+    /**
+     * 新增一个keeper
+     *
+     * @param keeperTransMeta
+     */
     @RequestMapping(method = RequestMethod.POST)
     public void add(@RequestBody KeeperTransMeta keeperTransMeta) {
 
@@ -36,6 +43,11 @@ public class KeeperContainerController extends AbstractController {
         keeperContainerService.add(keeperTransMeta);
     }
 
+    /**
+     * 新增或者启动
+     *
+     * @param keeperTransMeta
+     */
     @RequestMapping(value = "/clusters/" + CLUSTER_NAME_PATH_VARIABLE + "/shards/" + SHARD_NAME_PATH_VARIABLE, method = RequestMethod.POST)
     public void addOrStart(@RequestBody KeeperTransMeta keeperTransMeta) {
 

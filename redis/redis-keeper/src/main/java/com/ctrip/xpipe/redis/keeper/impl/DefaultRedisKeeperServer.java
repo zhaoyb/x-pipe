@@ -148,6 +148,11 @@ public class DefaultRedisKeeperServer extends AbstractRedisServer implements Red
 		return leaderElectorManager.createLeaderElector(ctx);
 	}
 
+	/**
+	 * 初始化
+	 *
+	 * @throws Exception
+	 */
 	@Override
 	protected void doInitialize() throws Exception {
 		super.doInitialize();
@@ -160,6 +165,7 @@ public class DefaultRedisKeeperServer extends AbstractRedisServer implements Red
 		clientExecutors = Executors.newSingleThreadExecutor(ClusterShardAwareThreadFactory.create(clusterId, shardId, "RedisClient-" + threadPoolName));
 		scheduled = Executors.newScheduledThreadPool(DEFAULT_SCHEDULED_CORE_POOL_SIZE , ClusterShardAwareThreadFactory.create(clusterId, shardId, "sch-" + threadPoolName));
 		bossGroup = new NioEventLoopGroup(DEFAULT_BOSS_EVENT_LOOP_SIZE, ClusterShardAwareThreadFactory.create(clusterId, shardId, "boss-" + threadPoolName));
+		//netty 相关
 		workerGroup = new NioEventLoopGroup(DEFAULT_KEEPER_WORKER_GROUP_THREAD_COUNT, ClusterShardAwareThreadFactory.create(clusterId, shardId, "work-"+ threadPoolName));
 		masterEventLoopGroup = new NioEventLoopGroup(DEFAULT_MASTER_EVENT_LOOP_SIZE, ClusterShardAwareThreadFactory.create(clusterId, shardId, "master-" + threadPoolName));
 
@@ -304,7 +310,7 @@ public class DefaultRedisKeeperServer extends AbstractRedisServer implements Red
 	}
 
 	protected void startServer() throws InterruptedException {
-		
+		// netty 启动
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup, workerGroup)
          .channel(NioServerSocketChannel.class)

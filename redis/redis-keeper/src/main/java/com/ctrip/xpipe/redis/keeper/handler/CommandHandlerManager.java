@@ -27,10 +27,13 @@ public class CommandHandlerManager extends AbstractCommandHandler{
 	private void initCommands() {
 		
 		putHandler(new ReplconfHandler());
+		// psync 命令
 		putHandler(new PsyncHandler());
+		// ping 命令
 		putHandler(new PingCommandHandler());
 		putHandler(new LFHandler());
 		putHandler(new InfoHandler());
+		// salveof 命令
 		putHandler(new SlaveOfCommandHandler());
 		putHandler(new KinfoCommandHandler());
 		putHandler(new KeeperCommandHandler());
@@ -67,12 +70,15 @@ public class CommandHandlerManager extends AbstractCommandHandler{
 			@Override
 			public void run() {
 				try {
+					// 获取第一个参数， 并通过第一个参数， 获取对应的 commandhandler
 					CommandHandler handler = handlers.get(args[0].toLowerCase());
+					// 未获取到 commandhandler
 					if (handler == null) {
 						logger.error("[doHandler][no handler found]{}, {}", redisClient, StringUtil.join(" ", args));
 						redisClient.sendMessage(new RedisErrorParser("unsupported command:" + args[0]).format());
 						return;
 					}
+					// 内部处理
 					innerDoHandle(args, redisClient, handler);
 				} catch (Exception e) {
 					logger.error("Error process command {} for client {}", Arrays.asList(args), redisClient, e);

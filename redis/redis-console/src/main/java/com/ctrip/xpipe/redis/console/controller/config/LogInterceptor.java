@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 日志打印拦截器
+ *
  * @author wenchao.meng
  *         <p>
  *         Apr 06, 2017

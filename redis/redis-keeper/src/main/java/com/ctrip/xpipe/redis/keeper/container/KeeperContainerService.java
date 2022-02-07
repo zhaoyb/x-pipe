@@ -49,14 +49,21 @@ public class KeeperContainerService {
     private Map<String, RedisKeeperServer> redisKeeperServers = Maps.newConcurrentMap();
 
     public RedisKeeperServer add(KeeperTransMeta keeperTransMeta) {
+
+        // 获取keeper meta 参数
         KeeperMeta keeperMeta = keeperTransMeta.getKeeperMeta();
+        // 丰富数据，就是为keeperMeta赋上集群ID和分片ID
         enrichKeeperMetaFromKeeperTransMeta(keeperMeta, keeperTransMeta);
 
+        // 集合key
         String keeperServerKey = assembleKeeperServerKey(keeperTransMeta);
+        // double check
         if (!redisKeeperServers.containsKey(keeperServerKey)) {
             synchronized (this) {
                 if (!redisKeeperServers.containsKey(keeperServerKey)) {
+                    // 检查端口
                     if (runningPorts.contains(keeperMeta.getPort())) {
+                        // 端口被占用
                         throw new RedisKeeperRuntimeException(
                                 new ErrorMessage<>(KeeperContainerErrorCode.KEEPER_ALREADY_EXIST,
                                 String.format("Add keeper for cluster %s shard %s failed since port %d is already used",
@@ -100,10 +107,13 @@ public class KeeperContainerService {
     }
 
     public void start(String clusterId, String shardId) {
+        // 获取server key
         String keeperServerKey = assembleKeeperServerKey(clusterId, shardId);
 
+        // 获取 Redis Keeper Server对象
         RedisKeeperServer keeperServer = redisKeeperServers.get(keeperServerKey);
 
+        // 对象不存在， 抛出异常
         if (keeperServer == null) {
             throw new RedisKeeperRuntimeException(
                     new ErrorMessage<>(KeeperContainerErrorCode.KEEPER_NOT_EXIST,
@@ -111,6 +121,7 @@ public class KeeperContainerService {
                                     clusterId, shardId)), null);
         }
 
+        // 对象已经启动， 抛出异常
         if (keeperServer.getLifecycleState().isStarted()) {
             throw new RedisKeeperRuntimeException(
                     new ErrorMessage<>(KeeperContainerErrorCode.KEEPER_ALREADY_STARTED,
@@ -119,6 +130,7 @@ public class KeeperContainerService {
         }
 
         try {
+            // 启动
             keeperServer.start();
         } catch (Throwable ex) {
             throw new RedisKeeperRuntimeException(
@@ -197,18 +209,29 @@ public class KeeperContainerService {
 
     private RedisKeeperServer doAdd(KeeperTransMeta keeperTransMeta, KeeperMeta keeperMeta) throws Exception {
 
+        // 存储路径
         File baseDir = getReplicationStoreDir(keeperMeta);
 
         return createRedisKeeperServer(keeperMeta, baseDir);
     }
 
     private void enrichKeeperMetaFromKeeperTransMeta(KeeperMeta keeperMeta, KeeperTransMeta keeperTransMeta) {
+        // 集群ID
         ClusterMeta clusterMeta = new ClusterMeta(keeperTransMeta.getClusterId());
+        // 分片ID
         ShardMeta shardMeta = new ShardMeta(keeperTransMeta.getShardId());
         shardMeta.setParent(clusterMeta);
         keeperMeta.setParent(shardMeta);
     }
 
+    /**
+     * 创建Redis Keeper Server
+     *
+     * @param keeper
+     * @param baseDir
+     * @return
+     * @throws Exception
+     */
     private RedisKeeperServer createRedisKeeperServer(KeeperMeta keeper,
                                                       File baseDir) throws Exception {
 

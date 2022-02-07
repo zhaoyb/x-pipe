@@ -11,6 +11,7 @@ public class ComponentRegistryHolder {
     private static AtomicBoolean isRegistrySet = new AtomicBoolean(false);
     private static ComponentRegistry componentRegistry;
 
+    // DefaultRegistry
     public static void initializeRegistry(ComponentRegistry componentRegistryToSet) {
         if (!isRegistrySet.compareAndSet(false, true)) {
             //already set

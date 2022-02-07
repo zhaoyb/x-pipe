@@ -18,11 +18,24 @@ import org.springframework.context.annotation.Profile;
 @Profile(AbstractProfile.PROFILE_NAME_PRODUCTION)
 public class Production extends AbstractProfile {
 
+    /**
+     * 初始化zk
+     *
+     * @param consoleConfig
+     * @return
+     */
     @Bean
     public ZkClient getZkClient(ConsoleConfig consoleConfig) {
         return getZkClient(consoleConfig.getZkNameSpace(), consoleConfig.getZkConnectionString());
     }
 
+    /**
+     * 获取zk配置
+     *
+     * @param zkNameSpace
+     * @param zkAddress
+     * @return
+     */
     @Override
     protected ZkClient getZkClient(String zkNameSpace, String zkAddress) {
 

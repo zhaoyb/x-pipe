@@ -25,7 +25,9 @@ public class CreatedComponentRedistry extends AbstractComponentRegistry implemen
 	@Override
 	public String doAdd(Object component) throws Exception {
 
+		// 获取组件名称
 		String name = getName(component);
+		// 添加到组件集合
 		doAdd(name, component);
 		return name;
 	}
@@ -94,15 +96,25 @@ public class CreatedComponentRedistry extends AbstractComponentRegistry implemen
 		return result;
 	}
 
+	/**
+	 *  添加一个组件， 在添加进去一个组件后， 同时调用了初始化昂发
+	 *
+	 * @param name
+	 * @param component
+	 * @throws Exception
+	 */
 	@Override
 	protected void doAdd(String name, Object component) throws Exception {
-	
+
+		// 如果这个组件有生命周期
 		if(component instanceof Lifecycle){
 			
 			Lifecycle lifecycle = (Lifecycle) component;
 			if(lifecycle.getLifecycleState() != null){
 				if(getLifecycleState().isInitializing() || getLifecycleState().isInitialized()){
+					// 组件能够初始化，
 					if(lifecycle.getLifecycleState().canInitialize()){
+						// 组件初始化
 						lifecycle.initialize();
 					}
 				}
@@ -127,7 +139,7 @@ public class CreatedComponentRedistry extends AbstractComponentRegistry implemen
 
 			}
 		}
-		
+		// 添加到map
 		components.put(name, component);
 	}
 

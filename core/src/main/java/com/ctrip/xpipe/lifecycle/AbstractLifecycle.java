@@ -26,15 +26,20 @@ public abstract class AbstractLifecycle implements Lifecycle, LifecycleStateAwar
 	@Override
 	public void initialize() throws Exception {
 
+		// 获取声明周期 阶段名称
 		String phaseName = lifecycleState.getPhaseName();
+		// 如果 阶段名称为空 或者 结束， 则表示可以开始， 否则抛出一个异常
 		if(!lifecycleController.canInitialize(phaseName)){
 			logger.error("[initialize][can not init]{}, {}", phaseName, this);
 			throw new IllegalStateException("can not initialize:" + phaseName + "," + this);
 		}
 		
 		try{
+			// 设置为 开始 状态
 			lifecycleState.setPhaseName(Initializable.PHASE_NAME_BEGIN);
+			// 执行初始化
 			doInitialize();
+			// 设置为 结束 状态
 			lifecycleState.setPhaseName(Initializable.PHASE_NAME_END);
 		}catch(Exception e){
 			lifecycleState.rollback(e);

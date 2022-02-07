@@ -53,10 +53,13 @@ public class ConsoleContextConfig extends AbstractRedisConfigContext {
 
 	@Bean(name = REDIS_COMMAND_EXECUTOR)
 	public ScheduledExecutorService getRedisCommandExecutor() {
+		// 获取CPU个数， 用CPU个数作为核心线程数
 		int corePoolSize = OsUtils.getCpuCount();
 		if (corePoolSize > maxScheduledCorePoolSize) {
 			corePoolSize = maxScheduledCorePoolSize;
 		}
+		// 获取ScheduledExecutorService， 这里调用的是google guava的方法，这个方法是会对线程池中的线程进行改造，当用户主线程结束后， 会等一段时间再结束
+		// 线程池中的线程
 		return MoreExecutors.getExitingScheduledExecutorService(
 				new ScheduledThreadPoolExecutor(corePoolSize, XpipeThreadFactory.create(REDIS_COMMAND_EXECUTOR)),
 				THREAD_POOL_TIME_OUT, TimeUnit.SECONDS

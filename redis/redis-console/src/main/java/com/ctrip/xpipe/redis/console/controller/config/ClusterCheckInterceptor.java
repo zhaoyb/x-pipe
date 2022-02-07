@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ *
+ *
+ * 集群类型检查拦截器
+ *
+ */
 public class ClusterCheckInterceptor extends HandlerInterceptorAdapter {
 
     private MetaCache metaCache;

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 默认的 注册中心
+ *
  * @author wenchao.meng
  *
  * Jun 17, 2016
@@ -17,10 +19,17 @@ public class DefaultRegistry extends AbstractComponentRegistry{
 	
 	private ComponentRegistry createdRegistry; 
 	private ComponentRegistry springRegistry;
-	
+
+	/**
+	 * 构造函数
+	 *
+	 * @param createdRegistry
+	 * @param springRegistry
+	 */
 	public DefaultRegistry(ComponentRegistry createdRegistry, ComponentRegistry springRegistry) {
-		
+		// 普通注册
 		this.createdRegistry = createdRegistry;
+		// spring 注册
 		this.springRegistry = springRegistry;
 	}
 

@@ -20,12 +20,31 @@ import java.util.concurrent.TimeUnit;
 public class DefaultZkConfig implements ZkConfig{
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+	/**
+	 * zk 命名空间 key
+	 */
 	public static String KEY_ZK_NAMESPACE = "key_zk_namespace";
-	
+
+	/**
+	 * session 超时时间
+	 *
+	 */
 	private int zkSessionTimeoutMillis = Integer.parseInt(System.getProperty("ZK.SESSION.TIMEOUT", "5000"));
+	/**
+	 * 连接超时时间
+	 *
+	 */
 	private int zkConnectionTimeoutMillis = Integer.parseInt(System.getProperty("ZK.CONN.TIMEOUT", "3000"));
+	/**
+	 * 重试次数
+	 *
+	 */
 	private int zkRetries = 3;
+	/**
+	 * 默认从环境变量中读取zk 命名空间
+	 *
+	 */
 	private String zkNameSpace = System.getProperty(KEY_ZK_NAMESPACE, DEFAULT_ZK_NAMESPACE);
 	
 	@Override
@@ -79,6 +98,13 @@ public class DefaultZkConfig implements ZkConfig{
 		return 5000;
 	}
 
+	/**
+	 *  创建zk连接，使用的是Curator客户端
+	 *
+	 * @param address
+	 * @return
+	 * @throws InterruptedException
+	 */
 	@Override
 	public CuratorFramework create(String address) throws InterruptedException {
 
@@ -89,6 +115,7 @@ public class DefaultZkConfig implements ZkConfig{
 		builder.namespace(getZkNamespace());
 		builder.retryPolicy(new RetryNTimes(getZkRetries(), getSleepMsBetweenRetries()));
 		builder.sessionTimeoutMs(getZkSessionTimeoutMillis());
+		// 自定义线程工厂
 		builder.threadFactory(XpipeThreadFactory.create("Xpipe-ZK-" + address, true));
 
 		logger.info("[create]{}, {}", Codec.DEFAULT.encode(this), address);

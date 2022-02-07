@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
+ *  spring mvc 拦截器配置
+ *
  * @author wenchao.meng
  *         <p>
  *         Apr 06, 2017
@@ -19,7 +21,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 日志拦截器，打印请求-响应日志
         registry.addInterceptor(new LogInterceptor());
+        // 类型检查拦截器
         registry.addInterceptor(new ClusterCheckInterceptor(metaCache));
     }
 

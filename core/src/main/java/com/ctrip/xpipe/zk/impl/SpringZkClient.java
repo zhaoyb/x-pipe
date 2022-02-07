@@ -24,7 +24,11 @@ public class SpringZkClient implements ZkClient{
         this.zkAddress = zkAddress;
     }
 
-
+    /**
+     * 类初始化后调用
+     *
+     * @throws InterruptedException
+     */
     @PostConstruct
     public void postContruct() throws InterruptedException {
         curatorFramework = zkConfig.create(zkAddress);
